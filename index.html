@@ -638,6 +638,232 @@
             </div>
           </div>
         </div>
+
+        <!-- Ticket Actions -->
+        <div class="max-w-md mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 no-print">
+          <button onclick="downloadTicketImage()" class="py-3 px-4 rounded-xl bg-royal hover:bg-royalHover text-white font-semibold text-xs sm:text-sm active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Unduh E-Tiket (PNG)</span>
+          </button>
+          <button onclick="navigateConsumerHome()" class="py-3 px-4 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-navy font-semibold text-xs sm:text-sm active:scale-95 transition-all flex items-center justify-center gap-2">
+            <i data-lucide="home" class="w-4 h-4 text-slate-500"></i>
+            <span>Kembali ke Beranda</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- ADMIN PANEL VIEW (PIN PROTECTED)                                    -->
+    <!-- =================================================================== -->
+    <section id="admin-view" class="hidden animate-step space-y-6">
+      <!-- Admin Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white rounded-2xl border border-slate-200 p-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-navy text-white text-[10px] font-bold uppercase tracking-wider">Panel Admin</span>
+            <span class="text-xs text-slate-400">SR Trans Operations</span>
+          </div>
+          <h1 class="font-display font-bold text-xl text-navy mt-1">Kelola Armada, Manifest & Absensi</h1>
+        </div>
+        <button onclick="exitAdminMode()" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-navy active:scale-95 transition-all">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Tampilan Peserta</span>
+        </button>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="grid grid-cols-3 gap-2 bg-white p-1.5 rounded-2xl border border-slate-200">
+        <button onclick="switchAdminTab('schedules')" id="tab-btn-schedules" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all bg-royal text-white shadow-2xs">
+          <i data-lucide="calendar-cog" class="w-4 h-4"></i>
+          <span>Jadwal & Rute</span>
+        </button>
+        <button onclick="switchAdminTab('manifest')" id="tab-btn-manifest" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:bg-slate-50">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Manifest & Kursi</span>
+        </button>
+        <button onclick="switchAdminTab('attendance')" id="tab-btn-attendance" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:bg-slate-50">
+          <i data-lucide="qr-code" class="w-4 h-4"></i>
+          <span>Absensi QR</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: KELOLA JADWAL, RUTE & PILIHAN TITIK JEMPUT -->
+      <div id="admin-tab-schedules" class="space-y-4">
+        <form id="admin-schedules-form" onsubmit="handleSaveSchedules(event)" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Travel 1 Config Card -->
+            <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-display font-bold text-lg text-navy">Travel 1</h3>
+                <span class="text-xs font-medium text-slate-400">Isuzu Elf Long • 17 Kursi</span>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Rute Perjalanan</label>
+                <input type="text" id="edit-t1-route" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Titik Antar (Tujuan Retreat)</label>
+                <input type="text" id="edit-t1-dropoff" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
+                  <input type="text" id="edit-t1-date" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Jam Berangkat</label>
+                  <input type="text" id="edit-t1-time" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Travel 2 Config Card -->
+            <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-display font-bold text-lg text-navy">Travel 2</h3>
+                <span class="text-xs font-medium text-slate-400">Isuzu Elf Long • 17 Kursi</span>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Rute Perjalanan</label>
+                <input type="text" id="edit-t2-route" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Titik Antar (Tujuan Retreat)</label>
+                <input type="text" id="edit-t2-dropoff" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
+                  <input type="text" id="edit-t2-date" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Jam Berangkat</label>
+                  <input type="text" id="edit-t2-time" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Armada Helper Config Card -->
+            <div class="md:col-span-2 rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-display font-bold text-lg text-navy">Armada Helper</h3>
+                <span class="text-xs font-medium text-slate-400">Mobil Kecil • 5 Kursi + 1 Sopir</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Rute Perjalanan</label>
+                  <input type="text" id="edit-helper-route" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Titik Antar (Tujuan Retreat)</label>
+                  <input type="text" id="edit-helper-dropoff" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
+                  <input type="text" id="edit-helper-date" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Jam Berangkat</label>
+                  <input type="text" id="edit-helper-time" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 px-5 rounded-xl bg-royal hover:bg-royalHover text-white font-display font-bold text-sm active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Simpan Perubahan Jadwal & Rute</span>
+          </button>
+        </form>
+
+        <!-- Pickup Points Manager Card -->
+        <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="font-display font-bold text-base text-navy">Pilihan Titik Penjemputan Peserta</h3>
+              <p class="text-[11px] text-slate-400">Daftar lokasi yang dapat dipilih peserta saat mengisi formulir pendaftaran.</p>
+            </div>
+            <span id="pickup-count-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-royal">4 Titik</span>
+          </div>
+
+          <div class="flex gap-2">
+            <input type="text" id="new-pickup-point-input" placeholder="Tambah titik jemput baru (misal: Depan Gereja / Halte)..." class="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
+            <button type="button" onclick="handleAddPickupPoint()" class="px-4 py-2 rounded-xl bg-navy hover:bg-slate-800 text-white text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shrink-0">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Tambah</span>
+            </button>
+          </div>
+
+          <div id="admin-pickup-list" class="flex flex-wrap gap-2 pt-1">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: MANIFEST & KURSI -->
+      <div id="admin-tab-manifest" class="hidden space-y-4">
+        <!-- Fleet Selector & Action Buttons -->
+        <div class="rounded-2xl bg-white border border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setAdminManifestFleet('travel1')" id="manifest-btn-travel1" class="px-4 py-2 rounded-xl text-xs font-bold bg-navy text-white transition-all">Travel 1</button>
+            <button onclick="setAdminManifestFleet('travel2')" id="manifest-btn-travel2" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Travel 2</button>
+            <button onclick="setAdminManifestFleet('helper')" id="manifest-btn-helper" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Armada Helper</button>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="exportManifestCSV()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-royal"></i>
+              <span>Print</span>
+            </button>
+            <button onclick="openResetConfirmModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 active:scale-95 transition-all">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span>Reset Kursi</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mini Seat Map + Manifest Table -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <!-- Interactive Mini Seat Map (5 cols) -->
+          <div class="lg:col-span-5 rounded-2xl bg-white border border-slate-200 p-4 flex flex-col items-center">
+            <p class="text-xs font-bold text-navy mb-1">Denah Interaktif Admin</p>
+            <p class="text-[11px] text-slate-400 mb-3 text-center">Klik kursi terisi untuk lihat detail / ubah / batalkan</p>
+            <div id="admin-mini-seatmap" class="w-full max-w-[250px] rounded-2xl border border-slate-300 bg-slate-50 p-3 space-y-2">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Seat Manifest List (7 cols) -->
+          <div class="lg:col-span-7 rounded-2xl bg-white border border-slate-200 overflow-hidden print-only-area">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 id="manifest-table-title" class="font-display font-bold text-sm text-navy">Manifest Penumpang — Travel 1</h3>
+                <p id="manifest-table-subtitle" class="text-[11px] text-slate-400">17 Kursi Isuzu Elf Long</p>
+              </div>
+              <span id="manifest-occupancy-pill" class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-royal">0 / 17 Terisi</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
+                    <th class="py-2.5 px-3">Kursi</th>
+                    <th class="py-2.5 px-3">Peserta & WA</th>
+                    <th class="py-2.5 px-3">Titik Jemput</th>
+                    <th class="py-2.5 px-3 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="manifest-table-body" class="divide-y divide-slate-100">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- TAB 3: ABSENSI QR (CHECK-IN KEBERANGKATAN) -->
