@@ -122,12 +122,13 @@
     }
 
     html.dark .border-slate-100,
-    html.dark .border-slate-200,
-    html.dark .border-slate-300 {
-      border-color: #1E293B !important;
-    }
-
     html.dark input {
+      background-color: #0F172A !important;
+      border-color: #334155 !important;
+      color: #F8FAFC !important;
+    }
+    html.dark input,
+    html.dark select {
       background-color: #0F172A !important;
       border-color: #334155 !important;
       color: #F8FAFC !important;
@@ -329,18 +330,55 @@
     <!-- =================================================================== -->
     <section id="consumer-view">
 
-      <!-- STEP 1: PILIH ARMADA (TRAVEL 1 & TRAVEL 2) -->
+      <!-- STEP 1: PILIH ARMADA (TRAVEL 1, TRAVEL 2 & ARMADA HELPER) -->
       <div id="step-1" class="animate-step space-y-5">
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <span class="text-xs font-semibold uppercase tracking-wider text-royal">Langkah 1 dari 3</span>
             <h1 class="font-display font-bold text-2xl text-navy mt-0.5">Pilih Armada & Jadwal</h1>
-            <p class="text-sm text-slate-500 mt-1">Pilih unit Isuzu Elf Long (17 kursi) untuk keberangkatan acara retreat.</p>
+            <p class="text-sm text-slate-500 mt-1">Pilih unit Isuzu Elf Long (17 kursi) atau Armada Helper (5 kursi) untuk keberangkatan acara retreat.</p>
           </div>
           <button onclick="openTicketLookupModal()" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all shadow-2xs">
             <i data-lucide="ticket" class="w-4 h-4 text-royal"></i>
             <span>Cek E-Tiket Saya</span>
           </button>
+        </div>
+
+        <!-- Countdown Hari-H Keberangkatan Banner -->
+        <div id="hari-h-countdown-card" class="rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-blue-50 text-royal border border-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="hourglass" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-royal">Menuju Hari-H Retreat</span>
+                <span id="countdown-fleet-tag" class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-600">Semua Armada</span>
+              </div>
+              <p id="countdown-target-label" class="font-display font-bold text-sm sm:text-base text-navy mt-0.5">Jumat, 12 Desember 2026 • 07:00 WIB</p>
+              <p id="countdown-status-note" class="text-[11px] text-slate-500 mt-0.5">Persiapkan diri & pastikan kursi Anda sudah terpesan.</p>
+            </div>
+          </div>
+
+          <!-- 4-Box Live Countdown Timer -->
+          <div id="countdown-boxes" class="grid grid-cols-4 gap-2 sm:gap-2.5 shrink-0 tabular-nums">
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 px-2.5 py-2 text-center min-w-[58px]">
+              <span id="cd-days" class="font-display font-extrabold text-lg sm:text-xl text-royal block leading-none">00</span>
+              <span class="text-[10px] font-semibold text-slate-500 mt-1 block">Hari</span>
+            </div>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 px-2.5 py-2 text-center min-w-[58px]">
+              <span id="cd-hours" class="font-display font-extrabold text-lg sm:text-xl text-navy block leading-none">00</span>
+              <span class="text-[10px] font-semibold text-slate-500 mt-1 block">Jam</span>
+            </div>
+            <div class="rounded-2xl bg-slate-50 border border-slate-200 px-2.5 py-2 text-center min-w-[58px]">
+              <span id="cd-minutes" class="font-display font-extrabold text-lg sm:text-xl text-navy block leading-none">00</span>
+              <span class="text-[10px] font-semibold text-slate-500 mt-1 block">Menit</span>
+            </div>
+            <div class="rounded-2xl bg-blue-50/70 border border-blue-200 px-2.5 py-2 text-center min-w-[58px]">
+              <span id="cd-seconds" class="font-display font-extrabold text-lg sm:text-xl text-royal block leading-none">00</span>
+              <span class="text-[10px] font-semibold text-royal mt-1 block">Detik</span>
+            </div>
+          </div>
         </div>
 
         <!-- Fleet Cards Container -->
@@ -349,18 +387,25 @@
         </div>
 
         <!-- Info Banner -->
-        <div class="rounded-2xl bg-white border border-slate-200 p-4 flex items-start gap-3">
-          <div class="w-9 h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center shrink-0 mt-0.5">
-            <i data-lucide="info" class="w-4 h-4"></i>
+        <div class="rounded-2xl bg-white border border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </div>
+            <div class="text-xs text-slate-600 leading-relaxed">
+              <p class="font-semibold text-navy mb-0.5">Informasi Reservasi & Kontak SR Trans</p>
+              <p>Status kursi diperbarui secara langsung (<em>real-time</em>). Pastikan Anda mengunduh atau menyimpan tangkapan layar <strong>E-Tiket (QR Code)</strong> setelah memilih kursi untuk keperluan absensi saat keberangkatan.</p>
+              <p class="mt-1.5 text-navy font-medium">Layanan & Informasi SR Trans: <a href="https://wa.me/6283872870200" target="_blank" rel="noopener noreferrer" class="text-royal font-bold hover:underline">+62 838-7287-0200</a></p>
+            </div>
           </div>
-          <div class="text-xs text-slate-600 leading-relaxed">
-            <p class="font-semibold text-navy mb-0.5">Informasi Reservasi Peserta Retreat</p>
-            <p>Status kursi diperbarui secara langsung (<em>real-time</em>). Pastikan Anda mengunduh atau menyimpan tangkapan layar <strong>E-Tiket (QR Code)</strong> setelah memilih kursi untuk keperluan absensi saat keberangkatan.</p>
-          </div>
+          <a href="https://wa.me/6283872870200?text=Halo%20SR%20Trans%2C%20saya%20ingin%20bertanya%20mengenai%20reservasi%20kursi%20retreat." target="_blank" rel="noopener noreferrer" class="self-start sm:self-center shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold active:scale-95 transition-all">
+            <i data-lucide="phone-call" class="w-3.5 h-3.5"></i>
+            <span>Chat WhatsApp</span>
+          </a>
         </div>
       </div>
 
-      <!-- STEP 2: DENAH KURSI (17-SEAT VERTICAL TOP-DOWN CABIN MAP) -->
+      <!-- STEP 2: DENAH KURSI (DYNAMIC CABIN MAP: 17-SEAT ELF OR 5-SEAT HELPER) -->
       <div id="step-2" class="hidden animate-step space-y-5">
         <!-- Back & Schedule Header -->
         <div class="flex items-center gap-3">
@@ -373,7 +418,7 @@
               <span class="text-slate-300">•</span>
               <span id="seatmap-travel-badge" class="text-xs font-bold text-navy">Travel 1</span>
             </div>
-            <h2 class="font-display font-bold text-xl text-navy truncate">Pilih Kursi (17 Kursi)</h2>
+            <h2 id="seatmap-title-heading" class="font-display font-bold text-xl text-navy truncate">Pilih Kursi</h2>
           </div>
         </div>
 
@@ -390,39 +435,25 @@
             <span>Sisi Kanan (Sopir) →</span>
           </div>
 
-          <!-- Isuzu Elf Cabin Outline -->
-          <div class="w-full max-w-[320px] rounded-[2rem] border-2 border-slate-300 bg-slate-50/70 p-4 sm:p-5 relative shadow-inner">
+          <!-- Vehicle Cabin Outline -->
+          <div id="cabin-outline-box" class="w-full max-w-[320px] rounded-[2rem] border-2 border-slate-300 bg-slate-50/70 p-4 sm:p-5 relative shadow-inner">
             <!-- Windshield Curve Visual -->
             <div class="w-3/4 h-2 mx-auto mb-4 rounded-full bg-slate-200/90"></div>
 
-            <!-- ROW 1: Front Cab (2 Passenger Seats Left + Driver Right) -->
-            <div class="grid grid-cols-3 gap-2.5 pb-4 mb-4 border-b border-dashed border-slate-300 items-center">
-              <!-- Seat 1 (Left) -->
-              <div id="seat-slot-1"></div>
-              <!-- Seat 2 (Middle-Left, beside driver) -->
-              <div id="seat-slot-2"></div>
-              <!-- Driver (Right - Indonesian RHD) -->
-              <div class="flex flex-col items-center justify-center h-[68px] rounded-2xl bg-slate-200/80 border border-slate-300 text-slate-600 select-none">
-                <svg class="w-7 h-7 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"></circle>
-                  <circle cx="12" cy="12" r="2.5"></circle>
-                  <path d="M12 3v6.5"></path>
-                  <path d="M4.2 16.5l5.6-3.2"></path>
-                  <path d="M19.8 16.5l-5.6-3.2"></path>
-                </svg>
-                <span class="text-[11px] font-bold text-navy mt-1">Sopir</span>
-              </div>
+            <!-- ROW 1: Front Cab (Populated dynamically for Elf Long vs Helper Car) -->
+            <div id="cabin-front-row" class="grid grid-cols-3 gap-2.5 pb-4 mb-4 border-b border-dashed border-slate-300 items-center">
+              <!-- Populated dynamically -->
             </div>
 
             <!-- Cabin Entrance Label -->
-            <div class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3 px-1">
+            <div id="cabin-section-label" class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-3 px-1">
               <span>Pintu Kabin</span>
-              <span>Formasi 3 Kursi Sejajar</span>
+              <span>Formasi Kursi</span>
             </div>
 
-            <!-- ROWS 2 to 6: 5 Rows x 3 Single Seats (Seats 3 to 17, No Center Aisle) -->
+            <!-- REAR ROWS: Populated dynamically -->
             <div id="cabin-rows-container" class="space-y-2.5">
-              <!-- Populated dynamically with Seats 3..17 -->
+              <!-- Populated dynamically -->
             </div>
 
             <!-- Rear Bumper Visual -->
@@ -499,7 +530,10 @@
 
           <div>
             <label for="input-pickup" class="block text-xs font-semibold text-navy mb-1.5">Titik Jemput <span class="text-rose-500">*</span></label>
-            <input type="text" id="input-pickup" required placeholder="Contoh: Depan Gereja / Halte Stasiun / Alamat Lengkap" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-royal/20 focus:border-royal transition-all" />
+            <select id="input-pickup" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-navy focus:outline-none focus:ring-2 focus:ring-royal/20 focus:border-royal transition-all">
+              <!-- Populated dynamically from state.pickupPoints -->
+            </select>
+            <p class="text-[11px] text-slate-400 mt-1">Pilih titik penjemputan yang tersedia sesuai daftar panitia.</p>
           </div>
 
           <div class="pt-2">
@@ -596,181 +630,11 @@
             </div>
 
             <p class="text-[11px] text-slate-400 max-w-[240px]">Tunjukkan QR Code ini kepada panitia / koordinator armada untuk absensi naik.</p>
-          </div>
-        </div>
-
-        <!-- Ticket Actions -->
-        <div class="max-w-md mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 no-print">
-          <button onclick="downloadTicketImage()" class="py-3 px-4 rounded-xl bg-royal hover:bg-royalHover text-white font-semibold text-xs sm:text-sm active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
-            <i data-lucide="download" class="w-4 h-4"></i>
-            <span>Unduh E-Tiket (PNG)</span>
-          </button>
-          <button onclick="navigateConsumerHome()" class="py-3 px-4 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-navy font-semibold text-xs sm:text-sm active:scale-95 transition-all flex items-center justify-center gap-2">
-            <i data-lucide="home" class="w-4 h-4 text-slate-500"></i>
-            <span>Kembali ke Beranda</span>
-          </button>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- =================================================================== -->
-    <!-- ADMIN PANEL VIEW (PIN PROTECTED)                                    -->
-    <!-- =================================================================== -->
-    <section id="admin-view" class="hidden animate-step space-y-6">
-      <!-- Admin Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white rounded-2xl border border-slate-200 p-4">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded-md bg-navy text-white text-[10px] font-bold uppercase tracking-wider">Panel Admin</span>
-            <span class="text-xs text-slate-400">SR Trans Operations</span>
-          </div>
-          <h1 class="font-display font-bold text-xl text-navy mt-1">Kelola Armada, Manifest & Absensi</h1>
-        </div>
-        <button onclick="exitAdminMode()" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-navy active:scale-95 transition-all">
-          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-          <span>Tampilan Peserta</span>
-        </button>
-      </div>
-
-      <!-- Admin Navigation Tabs -->
-      <div class="grid grid-cols-3 gap-2 bg-white p-1.5 rounded-2xl border border-slate-200">
-        <button onclick="switchAdminTab('schedules')" id="tab-btn-schedules" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all bg-royal text-white shadow-2xs">
-          <i data-lucide="calendar-cog" class="w-4 h-4"></i>
-          <span>Jadwal & Rute</span>
-        </button>
-        <button onclick="switchAdminTab('manifest')" id="tab-btn-manifest" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:bg-slate-50">
-          <i data-lucide="users" class="w-4 h-4"></i>
-          <span>Manifest & Kursi</span>
-        </button>
-        <button onclick="switchAdminTab('attendance')" id="tab-btn-attendance" class="admin-tab-btn py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:bg-slate-50">
-          <i data-lucide="qr-code" class="w-4 h-4"></i>
-          <span>Absensi QR</span>
-        </button>
-      </div>
-
-      <!-- TAB 1: KELOLA JADWAL & RUTE -->
-      <div id="admin-tab-schedules" class="space-y-4">
-        <form id="admin-schedules-form" onsubmit="handleSaveSchedules(event)" class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Travel 1 Config Card -->
-            <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-display font-bold text-lg text-navy">Travel 1</h3>
-                <span class="text-xs font-medium text-slate-400">Isuzu Elf Long • 17 Kursi</span>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Rute Perjalanan</label>
-                <input type="text" id="edit-t1-route" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Titik Antar (Tujuan Retreat)</label>
-                <input type="text" id="edit-t1-dropoff" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-              </div>
-              <div class="grid grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
-                  <input type="text" id="edit-t1-date" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1">Jam Berangkat</label>
-                  <input type="text" id="edit-t1-time" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-                </div>
-              </div>
-            </div>
-
-            <!-- Travel 2 Config Card -->
-            <div class="rounded-2xl bg-white border border-slate-200 p-5 space-y-3.5">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-display font-bold text-lg text-navy">Travel 2</h3>
-                <span class="text-xs font-medium text-slate-400">Isuzu Elf Long • 17 Kursi</span>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Rute Perjalanan</label>
-                <input type="text" id="edit-t2-route" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Titik Antar (Tujuan Retreat)</label>
-                <input type="text" id="edit-t2-dropoff" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-              </div>
-              <div class="grid grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
-                  <input type="text" id="edit-t2-date" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1">Jam Berangkat</label>
-                  <input type="text" id="edit-t2-time" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full py-3.5 px-5 rounded-xl bg-royal hover:bg-royalHover text-white font-display font-bold text-sm active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm">
-            <i data-lucide="save" class="w-4 h-4"></i>
-            <span>Simpan Perubahan Jadwal & Rute</span>
-          </button>
-        </form>
-      </div>
-
-      <!-- TAB 2: MANIFEST & KURSI -->
-      <div id="admin-tab-manifest" class="hidden space-y-4">
-        <!-- Fleet Selector & Action Buttons -->
-        <div class="rounded-2xl bg-white border border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
-            <button onclick="setAdminManifestFleet('travel1')" id="manifest-btn-travel1" class="px-4 py-2 rounded-xl text-xs font-bold bg-navy text-white transition-all">Travel 1</button>
-            <button onclick="setAdminManifestFleet('travel2')" id="manifest-btn-travel2" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Travel 2</button>
-          </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <button onclick="exportManifestCSV()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
-              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Export CSV</span>
-            </button>
-            <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
-              <i data-lucide="printer" class="w-3.5 h-3.5 text-royal"></i>
-              <span>Print</span>
-            </button>
-            <button onclick="openResetConfirmModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 active:scale-95 transition-all">
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-              <span>Reset Kursi</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Mini Seat Map + Manifest Table -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <!-- Interactive Mini Seat Map (5 cols) -->
-          <div class="lg:col-span-5 rounded-2xl bg-white border border-slate-200 p-4 flex flex-col items-center">
-            <p class="text-xs font-bold text-navy mb-1">Denah Interaktif Admin</p>
-            <p class="text-[11px] text-slate-400 mb-3 text-center">Klik kursi terisi untuk lihat detail / ubah / batalkan</p>
-            <div id="admin-mini-seatmap" class="w-full max-w-[250px] rounded-2xl border border-slate-300 bg-slate-50 p-3 space-y-2">
-              <!-- Populated dynamically -->
-            </div>
-          </div>
-
-          <!-- 17-Seat Manifest List (7 cols) -->
-          <div class="lg:col-span-7 rounded-2xl bg-white border border-slate-200 overflow-hidden print-only-area">
-            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-              <div>
-                <h3 id="manifest-table-title" class="font-display font-bold text-sm text-navy">Manifest Penumpang — Travel 1</h3>
-                <p id="manifest-table-subtitle" class="text-[11px] text-slate-400">17 Kursi Isuzu Elf Long</p>
-              </div>
-              <span id="manifest-occupancy-pill" class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-royal">0 / 17 Terisi</span>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
-                    <th class="py-2.5 px-3">Kursi</th>
-                    <th class="py-2.5 px-3">Peserta & WA</th>
-                    <th class="py-2.5 px-3">Titik Jemput</th>
-                    <th class="py-2.5 px-3 text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody id="manifest-table-body" class="divide-y divide-slate-100">
-                  <!-- Populated dynamically -->
-                </tbody>
-              </table>
+            <div class="pt-1">
+              <a href="https://wa.me/6283872870200?text=Halo%20SR%20Trans%2C%20saya%20membutuhkan%20bantuan%20terkait%20E-Tiket%20perjalanan%20saya." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all">
+                <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
+                <span>Kontak SR Trans: +62 838-7287-0200</span>
+              </a>
             </div>
           </div>
         </div>
@@ -783,7 +647,7 @@
           <div>
             <span class="text-xs font-semibold text-royal uppercase tracking-wider">Absensi Keberangkatan</span>
             <h3 class="font-display font-bold text-lg text-navy mt-0.5">Scan QR E-Tiket Peserta</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Validasi kehadiran peserta saat naik ke armada Travel 1 atau Travel 2.</p>
+            <p class="text-xs text-slate-500 mt-0.5">Validasi kehadiran peserta saat naik ke Travel 1, Travel 2, atau Armada Helper.</p>
           </div>
           <div class="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-200">
             <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-display font-extrabold text-sm">
@@ -842,7 +706,10 @@
   <!-- ===================================================================== -->
   <!-- SUBTLE CREATOR FOOTER                                                 -->
   <!-- ===================================================================== -->
-  <footer class="w-full max-w-3xl mx-auto px-4 pb-8 pt-2 text-center no-print">
+  <footer class="w-full max-w-3xl mx-auto px-4 pb-8 pt-2 text-center no-print space-y-1">
+    <p class="text-[11px] text-slate-500">
+      Kontak Informasi SR Trans: <a href="https://wa.me/6283872870200" target="_blank" rel="noopener noreferrer" class="font-semibold text-royal hover:underline">+62 838-7287-0200</a>
+    </p>
     <p class="text-[10px] tracking-wide text-slate-400/75">
       Dibuat oleh <span class="font-medium text-slate-500">Mario</span> • SR Trans
     </p>
@@ -952,7 +819,7 @@
       </div>
       <div>
         <h3 class="font-display font-bold text-lg text-navy">Reset Semua Kursi?</h3>
-        <p class="text-xs text-slate-500 mt-1">Seluruh data reservasi pada <strong id="reset-fleet-label" class="text-navy">Travel 1</strong> akan dikosongkan kembali menjadi 17 kursi tersedia.</p>
+        <p class="text-xs text-slate-500 mt-1">Seluruh data reservasi pada <strong id="reset-fleet-label" class="text-navy">Travel 1</strong> akan dikosongkan kembali menjadi kursi tersedia.</p>
       </div>
       <div class="flex gap-2 pt-1">
         <button onclick="closeModal('modal-reset-confirm')" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">Batal</button>
@@ -982,11 +849,20 @@
 
     const ADMIN_PIN = '9311';
 
+    const DEFAULT_PICKUP_POINTS = [
+      'Titik Kumpul Utama (Gereja / Sekretariat)',
+      'Stasiun Terdekat',
+      'Gerbang Tol / Halte Utama',
+      'Rumah / Alamat Peserta (Jalur Rute)'
+    ];
+
     // Fallback default schedules if database row hasn't been seeded yet
     const DEFAULT_SCHEDULES = {
       travel1: {
         id: 'travel1',
         name: 'Travel 1',
+        vehicleType: 'Isuzu Elf Long',
+        capacity: 17,
         route: 'Jakarta - Puncak (Cisarua)',
         dropoff: 'Villa Bukit Indah Retreat Center',
         date: 'Jumat, 12 Desember 2026',
@@ -995,16 +871,29 @@
       travel2: {
         id: 'travel2',
         name: 'Travel 2',
+        vehicleType: 'Isuzu Elf Long',
+        capacity: 17,
         route: 'Jakarta - Puncak (Cisarua)',
         dropoff: 'Villa Bukit Indah Retreat Center',
         date: 'Jumat, 12 Desember 2026',
         time: '08:30 WIB'
+      },
+      helper: {
+        id: 'helper',
+        name: 'Armada Helper',
+        vehicleType: 'Mobil Kecil (Helper)',
+        capacity: 5,
+        route: 'Jakarta - Puncak (Cisarua)',
+        dropoff: 'Villa Bukit Indah Retreat Center',
+        date: 'Jumat, 12 Desember 2026',
+        time: '07:30 WIB'
       }
     };
 
     // Global App State
     let state = {
       schedules: JSON.parse(JSON.stringify(DEFAULT_SCHEDULES)),
+      pickupPoints: [...DEFAULT_PICKUP_POINTS],
       bookings: [],
       selectedFleetId: 'travel1',
       selectedSeats: [],
@@ -1015,6 +904,20 @@
       lastGeneratedTicket: null,
       isSupabaseConnected: false
     };
+
+    function getFleetCapacity(fleetId) {
+      const fleet = state.schedules[fleetId] || DEFAULT_SCHEDULES[fleetId];
+      return Number(fleet?.capacity) || (fleetId === 'helper' ? 5 : 17);
+    }
+
+    function getFleetSubtitle(fleetId) {
+      const fleet = state.schedules[fleetId] || DEFAULT_SCHEDULES[fleetId];
+      const cap = getFleetCapacity(fleetId);
+      if (fleetId === 'helper') {
+        return `${fleet?.vehicleType || 'Mobil Kecil'} • ${cap} Kursi + 1 Sopir`;
+      }
+      return `${fleet?.vehicleType || 'Isuzu Elf Long'} • ${cap} Kursi Tunggal`;
+    }
 
     let supabaseClient = null;
     let html5QrScanner = null;
@@ -1031,6 +934,7 @@
     window.addEventListener('DOMContentLoaded', async () => {
       initTheme();
       startRealtimeClock();
+      startHariHCountdown();
       cleanInjectedBadges();
       lucide.createIcons();
       await initDataLayer();
@@ -1099,6 +1003,150 @@
 
     /**
      * =========================================================================
+     * 3B. HARI-H DEPARTURE COUNTDOWN (AUTO-PARSES ADMIN SCHEDULE DATE & TIME)
+     * =========================================================================
+     */
+    const INDONESIAN_MONTH_MAP = {
+      januari: 0, jan: 0,
+      februari: 1, feb: 1,
+      maret: 2, mar: 2,
+      april: 3, apr: 3,
+      mei: 4,
+      juni: 5, jun: 5,
+      juli: 6, jul: 6,
+      agustus: 7, agu: 7, agt: 7,
+      september: 8, sep: 8,
+      oktober: 9, okt: 9,
+      november: 10, nov: 10,
+      desember: 11, des: 11
+    };
+
+    function parseIndonesianScheduleDate(dateStr, timeStr) {
+      if (!dateStr) return null;
+      const cleanDate = String(dateStr).toLowerCase().trim();
+      const dateMatch = cleanDate.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/);
+      if (!dateMatch) return null;
+
+      const day = parseInt(dateMatch[1], 10);
+      const monthName = dateMatch[2];
+      const year = parseInt(dateMatch[3], 10);
+      const month = INDONESIAN_MONTH_MAP[monthName];
+      if (month === undefined) return null;
+
+      let hours = 7;
+      let minutes = 0;
+      if (timeStr) {
+        const timeMatch = String(timeStr).match(/(\d{1,2})[:.](\d{2})/);
+        if (timeMatch) {
+          hours = parseInt(timeMatch[1], 10);
+          minutes = parseInt(timeMatch[2], 10);
+        }
+      }
+
+      // Construct timestamp in WIB (UTC+7)
+      const utcMs = Date.UTC(year, month, day, hours - 7, minutes, 0);
+      return new Date(utcMs);
+    }
+
+    function getEarliestDepartureTarget() {
+      const fleetKeys = ['travel1', 'travel2', 'helper'];
+      let earliestTimeMs = null;
+      let matchingFleets = [];
+      let earliestDateObj = null;
+
+      fleetKeys.forEach((key) => {
+        const sched = state.schedules[key];
+        if (!sched) return;
+        const parsed = parseIndonesianScheduleDate(sched.date, sched.time);
+        if (parsed && !isNaN(parsed.getTime())) {
+          const ts = parsed.getTime();
+          if (earliestTimeMs === null || ts < earliestTimeMs) {
+            earliestTimeMs = ts;
+            earliestDateObj = parsed;
+            matchingFleets = [sched];
+          } else if (ts === earliestTimeMs) {
+            matchingFleets.push(sched);
+          }
+        }
+      });
+
+      if (!earliestDateObj || matchingFleets.length === 0) return null;
+      return {
+        fleets: matchingFleets,
+        primaryFleet: matchingFleets[0],
+        dateObj: earliestDateObj
+      };
+    }
+
+    function formatFleetListLabel(fleets) {
+      if (!fleets || fleets.length === 0) return 'Semua Armada';
+      if (fleets.length === 3) return 'Semua Armada (Berangkat Bersama)';
+      if (fleets.length === 2) return `Berangkat Bersama: ${fleets[0].name} & ${fleets[1].name}`;
+      return `Armada Pertama: ${fleets[0].name}`;
+    }
+
+    function updateHariHCountdown() {
+      const daysEl = document.getElementById('cd-days');
+      const hoursEl = document.getElementById('cd-hours');
+      const minutesEl = document.getElementById('cd-minutes');
+      const secondsEl = document.getElementById('cd-seconds');
+      const labelEl = document.getElementById('countdown-target-label');
+      const tagEl = document.getElementById('countdown-fleet-tag');
+      const noteEl = document.getElementById('countdown-status-note');
+
+      if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+      const target = getEarliestDepartureTarget();
+      if (!target) {
+        const fallback = state.schedules.travel1 || DEFAULT_SCHEDULES.travel1;
+        if (labelEl) labelEl.textContent = `${fallback.date} • ${fallback.time}`;
+        return;
+      }
+
+      if (labelEl) {
+        labelEl.textContent = `${target.primaryFleet.date} • ${target.primaryFleet.time}`;
+      }
+      if (tagEl) {
+        tagEl.textContent = formatFleetListLabel(target.fleets);
+      }
+
+      const nowMs = Date.now();
+      const diffMs = target.dateObj.getTime() - nowMs;
+
+      if (diffMs <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minutesEl.textContent = '00';
+        secondsEl.textContent = '00';
+        if (noteEl) {
+          noteEl.textContent = 'Hari-H keberangkatan telah tiba! Selamat mengikuti acara retreat.';
+        }
+        return;
+      }
+
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+      secondsEl.textContent = String(seconds).padStart(2, '0');
+
+      if (noteEl) {
+        noteEl.textContent = 'Persiapkan diri & pastikan kursi Anda sudah terpesan.';
+      }
+    }
+
+    function startHariHCountdown() {
+      updateHariHCountdown();
+      setInterval(updateHariHCountdown, 1000);
+    }
+
+    /**
+     * =========================================================================
      * 4. SUPABASE DATA SYNC & REALTIME
      * =========================================================================
      */
@@ -1113,6 +1161,7 @@
     }
 
     async function initDataLayer() {
+      loadFromLocalStorage();
       try {
         if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
           supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
@@ -1125,12 +1174,9 @@
             subscribeSupabaseRealtime();
           }
           startPollingFallback();
-        } else {
-          loadFromLocalStorage();
         }
       } catch (err) {
         console.warn('Fallback ke penyimpanan lokal:', err);
-        loadFromLocalStorage();
       }
     }
 
@@ -1143,8 +1189,13 @@
 
       if (!schedRes.error && Array.isArray(schedRes.data) && schedRes.data.length > 0) {
         schedRes.data.forEach((row) => {
+          if (row.id === 'pickup_points' && Array.isArray(row.pickup_points)) {
+            state.pickupPoints = row.pickup_points;
+            return;
+          }
           if (state.schedules[row.id]) {
             state.schedules[row.id] = {
+              ...state.schedules[row.id],
               id: row.id,
               name: row.name || state.schedules[row.id].name,
               route: row.route || state.schedules[row.id].route,
@@ -1197,8 +1248,21 @@
     function loadFromLocalStorage() {
       try {
         const savedSched = localStorage.getItem('sr_trans_schedules');
+        const savedPickups = localStorage.getItem('sr_trans_pickup_points');
         const savedBook = localStorage.getItem('sr_trans_bookings');
-        if (savedSched) state.schedules = JSON.parse(savedSched);
+        if (savedSched) {
+          const parsed = JSON.parse(savedSched);
+          state.schedules = {
+            ...JSON.parse(JSON.stringify(DEFAULT_SCHEDULES)),
+            ...parsed
+          };
+        }
+        if (savedPickups) {
+          const parsedPickups = JSON.parse(savedPickups);
+          if (Array.isArray(parsedPickups) && parsedPickups.length > 0) {
+            state.pickupPoints = parsedPickups;
+          }
+        }
         if (savedBook) state.bookings = JSON.parse(savedBook);
       } catch (e) {
         console.error(e);
@@ -1208,6 +1272,7 @@
     function saveToLocalStorage() {
       try {
         localStorage.setItem('sr_trans_schedules', JSON.stringify(state.schedules));
+        localStorage.setItem('sr_trans_pickup_points', JSON.stringify(state.pickupPoints));
         localStorage.setItem('sr_trans_bookings', JSON.stringify(state.bookings));
       } catch (e) {
         console.error(e);
@@ -1281,6 +1346,7 @@
       const adminBtn = document.getElementById('admin-toggle-btn');
       if (adminBtn) adminBtn.classList.remove('hidden');
       populateAdminScheduleInputs();
+      renderAdminPickupList();
       switchAdminTab(state.adminActiveTab || 'schedules');
       lucide.createIcons();
     }
@@ -1321,7 +1387,10 @@
         }
       }
 
-      if (stepNumber === 1) renderFleetCards();
+      if (stepNumber === 1) {
+        renderFleetCards();
+        updateHariHCountdown();
+      }
       if (stepNumber === 2) renderSeatMap();
       if (stepNumber === 3) renderBookingFormSummary();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1329,12 +1398,14 @@
     }
 
     function refreshAllViews() {
+      updateHariHCountdown();
       if (state.isAdminMode) {
         if (state.adminActiveTab === 'manifest') renderAdminManifest();
         if (state.adminActiveTab === 'attendance') renderAttendanceTab();
       } else {
         if (state.currentStep === 1) renderFleetCards();
         if (state.currentStep === 2) renderSeatMap();
+        if (state.currentStep === 3) renderPickupDropdownOptions();
       }
     }
 
@@ -1368,17 +1439,21 @@
       const container = document.getElementById('fleet-cards-container');
       if (!container) return;
 
-      const fleets = [state.schedules.travel1, state.schedules.travel2];
+      const fleets = [state.schedules.travel1, state.schedules.travel2, state.schedules.helper].filter(Boolean);
       container.innerHTML = fleets
         .map((fleet) => {
+          const capacity = getFleetCapacity(fleet.id);
           const bookedMap = getBookedSeatMap(fleet.id);
           const bookedCount = Object.keys(bookedMap).length;
-          const availableCount = Math.max(0, 17 - bookedCount);
+          const availableCount = Math.max(0, capacity - bookedCount);
           const isFull = availableCount === 0;
-          const pct = Math.round((bookedCount / 17) * 100);
+          const pct = Math.round((bookedCount / capacity) * 100);
+          const isHelper = fleet.id === 'helper';
 
           return `
-            <div class="rounded-3xl bg-white border border-slate-200 p-5 sm:p-6 flex flex-col justify-between shadow-2xs hover:border-blue-200 transition-all">
+            <div class="rounded-3xl bg-white border border-slate-200 p-5 sm:p-6 flex flex-col justify-between shadow-2xs hover:border-blue-200 transition-all ${
+              isHelper ? 'md:col-span-2' : ''
+            }">
               <div>
                 <div class="flex items-start justify-between gap-3">
                   <div>
@@ -1387,13 +1462,13 @@
                         ? 'bg-rose-50 text-rose-700 border border-rose-200'
                         : 'bg-blue-50 text-royal border border-blue-100'
                     }">
-                      ${isFull ? 'Penuh (0 / 17 Kursi)' : `Tersedia ${availableCount} / 17 Kursi`}
+                      ${isFull ? `Penuh (0 / ${capacity} Kursi)` : `Tersedia ${availableCount} / ${capacity} Kursi`}
                     </span>
                     <h2 class="font-display font-extrabold text-xl text-navy mt-2.5">${escapeHtml(fleet.name)}</h2>
-                    <p class="text-xs text-slate-400">Isuzu Elf Long • 17 Kursi Tunggal</p>
+                    <p class="text-xs text-slate-400">${escapeHtml(getFleetSubtitle(fleet.id))}</p>
                   </div>
                   <div class="w-11 h-11 rounded-2xl bg-slate-50 border border-slate-200 text-royal flex items-center justify-center shrink-0">
-                    <i data-lucide="bus" class="w-5 h-5"></i>
+                    <i data-lucide="${isHelper ? 'car' : 'bus'}" class="w-5 h-5"></i>
                   </div>
                 </div>
 
@@ -1455,19 +1530,41 @@
 
     /**
      * =========================================================================
-     * 7. STEP 2: 17-SEAT CABIN MAP RENDERING & INTERACTION
+     * 7. STEP 2: 17-SEAT ELF & 5-SEAT HELPER CABIN MAP RENDERING
      * =========================================================================
      */
+    function renderDriverSeatHtml() {
+      return `
+        <div class="flex flex-col items-center justify-center h-[68px] rounded-2xl bg-slate-200/80 border border-slate-300 text-slate-600 select-none">
+          <svg class="w-7 h-7 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <circle cx="12" cy="12" r="2.5"></circle>
+            <path d="M12 3v6.5"></path>
+            <path d="M4.2 16.5l5.6-3.2"></path>
+            <path d="M19.8 16.5l-5.6-3.2"></path>
+          </svg>
+          <span class="text-[11px] font-bold text-navy mt-1">Sopir</span>
+        </div>
+      `;
+    }
+
     function renderSeatMap() {
       const fleet = state.schedules[state.selectedFleetId];
       if (!fleet) return;
 
+      const capacity = getFleetCapacity(fleet.id);
+      const isHelper = fleet.id === 'helper';
       const bookedMap = getBookedSeatMap(fleet.id);
 
       // Clean any selected seats that became booked in realtime
       state.selectedSeats = state.selectedSeats.filter((s) => !bookedMap[s]);
 
       document.getElementById('seatmap-travel-badge').textContent = fleet.name;
+      const headingEl = document.getElementById('seatmap-title-heading');
+      if (headingEl) {
+        headingEl.textContent = isHelper ? 'Pilih Kursi (5 Kursi + 1 Sopir)' : 'Pilih Kursi (17 Kursi)';
+      }
+
       document.getElementById('seatmap-schedule-strip').innerHTML = `
         <div>
           <span class="text-[11px] text-slate-400 block">Armada</span>
@@ -1487,24 +1584,60 @@
         </div>
       `;
 
-      // Render Front Cab Seats 1 & 2
-      document.getElementById('seat-slot-1').innerHTML = createSeatButtonHtml(1, bookedMap[1]);
-      document.getElementById('seat-slot-2').innerHTML = createSeatButtonHtml(2, bookedMap[2]);
-
-      // Render Rows 2 to 6 (Seats 3..17 in 5 rows x 3 seats)
+      const frontRowEl = document.getElementById('cabin-front-row');
+      const sectionLabelEl = document.getElementById('cabin-section-label');
       const rowsContainer = document.getElementById('cabin-rows-container');
-      let rowsHtml = '';
-      for (let row = 0; row < 5; row++) {
-        const startSeat = 3 + row * 3;
-        rowsHtml += `
-          <div class="grid grid-cols-3 gap-2.5">
-            ${createSeatButtonHtml(startSeat, bookedMap[startSeat])}
-            ${createSeatButtonHtml(startSeat + 1, bookedMap[startSeat + 1])}
-            ${createSeatButtonHtml(startSeat + 2, bookedMap[startSeat + 2])}
+
+      if (isHelper) {
+        // Mobil Kecil Helper: 1 Kursi Depan Kiri (#1) + Sopir Kanan
+        frontRowEl.className = 'grid grid-cols-2 gap-3 pb-4 mb-4 border-b border-dashed border-slate-300 items-center';
+        frontRowEl.innerHTML = `
+          ${createSeatButtonHtml(1, bookedMap[1])}
+          ${renderDriverSeatHtml()}
+        `;
+
+        if (sectionLabelEl) {
+          sectionLabelEl.innerHTML = `<span>Kabin Penumpang</span><span>Formasi 2 Kursi Sejajar</span>`;
+        }
+
+        // 2 Baris Belakang (Kursi 2-3 dan Kursi 4-5)
+        rowsContainer.innerHTML = `
+          <div class="grid grid-cols-2 gap-3">
+            ${createSeatButtonHtml(2, bookedMap[2])}
+            ${createSeatButtonHtml(3, bookedMap[3])}
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            ${createSeatButtonHtml(4, bookedMap[4])}
+            ${createSeatButtonHtml(5, bookedMap[5])}
           </div>
         `;
+      } else {
+        // Isuzu Elf Long: 2 Kursi Depan (#1, #2) + Sopir Kanan
+        frontRowEl.className = 'grid grid-cols-3 gap-2.5 pb-4 mb-4 border-b border-dashed border-slate-300 items-center';
+        frontRowEl.innerHTML = `
+          ${createSeatButtonHtml(1, bookedMap[1])}
+          ${createSeatButtonHtml(2, bookedMap[2])}
+          ${renderDriverSeatHtml()}
+        `;
+
+        if (sectionLabelEl) {
+          sectionLabelEl.innerHTML = `<span>Pintu Kabin</span><span>Formasi 3 Kursi Sejajar</span>`;
+        }
+
+        // Rows 2 to 6: 5 Rows x 3 Single Seats (Seats 3..17)
+        let rowsHtml = '';
+        for (let row = 0; row < 5; row++) {
+          const startSeat = 3 + row * 3;
+          rowsHtml += `
+            <div class="grid grid-cols-3 gap-2.5">
+              ${createSeatButtonHtml(startSeat, bookedMap[startSeat])}
+              ${createSeatButtonHtml(startSeat + 1, bookedMap[startSeat + 1])}
+              ${createSeatButtonHtml(startSeat + 2, bookedMap[startSeat + 2])}
+            </div>
+          `;
+        }
+        rowsContainer.innerHTML = rowsHtml;
       }
-      rowsContainer.innerHTML = rowsHtml;
 
       updateFloatingSeatBar();
     }
@@ -1605,6 +1738,23 @@
      * 8. STEP 3 & 4: BOOKING SUBMISSION & E-TICKET GENERATION
      * =========================================================================
      */
+    function renderPickupDropdownOptions() {
+      const selectEl = document.getElementById('input-pickup');
+      if (!selectEl) return;
+
+      const currentVal = selectEl.value;
+      const points = state.pickupPoints.length > 0 ? state.pickupPoints : DEFAULT_PICKUP_POINTS;
+
+      selectEl.innerHTML =
+        `<option value="" disabled ${!currentVal ? 'selected' : ''}>-- Pilih Titik Penjemputan --</option>` +
+        points
+          .map(
+            (pt) =>
+              `<option value="${escapeHtml(pt)}" ${currentVal === pt ? 'selected' : ''}>${escapeHtml(pt)}</option>`
+          )
+          .join('');
+    }
+
     function renderBookingFormSummary() {
       const fleet = state.schedules[state.selectedFleetId];
       if (!fleet) return;
@@ -1614,6 +1764,7 @@
       document.getElementById('form-summary-count').textContent = `${state.selectedSeats.length} Kursi`;
       document.getElementById('form-summary-route').textContent = `${fleet.route} (${fleet.date} • ${fleet.time})`;
       document.getElementById('form-summary-dropoff').textContent = fleet.dropoff;
+      renderPickupDropdownOptions();
     }
 
     async function handleBookingSubmit(e) {
@@ -1700,10 +1851,11 @@
       state.lastGeneratedTicket = booking;
       const fleet = state.schedules[booking.fleet_id] || DEFAULT_SCHEDULES.travel1;
       const seats = Array.isArray(booking.seat_numbers) ? booking.seat_numbers : [];
+      const vehicleLabel = fleet.vehicleType || (booking.fleet_id === 'helper' ? 'Mobil Kecil (Helper)' : 'Isuzu Elf Long');
 
       document.getElementById('ticket-code').textContent = booking.booking_code;
       document.getElementById('ticket-seats').textContent = seats.map((s) => `#${s}`).join(', ');
-      document.getElementById('ticket-fleet').textContent = `${fleet.name} (Isuzu Elf Long)`;
+      document.getElementById('ticket-fleet').textContent = `${fleet.name} (${vehicleLabel})`;
       document.getElementById('ticket-route').textContent = fleet.route;
       document.getElementById('ticket-datetime').textContent = `${fleet.date} • ${fleet.time}`;
       document.getElementById('ticket-name').textContent = booking.participant_name;
@@ -1739,6 +1891,7 @@
       if (!booking) return;
       const fleet = state.schedules[booking.fleet_id] || DEFAULT_SCHEDULES.travel1;
       const seatsText = (booking.seat_numbers || []).map((s) => `Kursi ${s}`).join(', ');
+      const vehicleLabel = fleet.vehicleType || (booking.fleet_id === 'helper' ? 'Mobil Kecil (Helper)' : 'Isuzu Elf Long');
 
       const canvas = document.createElement('canvas');
       canvas.width = 720;
@@ -1756,7 +1909,7 @@
       ctx.fillText('SR Trans — E-Tiket Retreat', 48, 66);
       ctx.fillStyle = '#93C5FD';
       ctx.font = '20px sans-serif';
-      ctx.fillText('Isuzu Elf Long • 17 Kursi Tunggal', 48, 102);
+      ctx.fillText(getFleetSubtitle(booking.fleet_id), 48, 102);
 
       ctx.fillStyle = '#64748B';
       ctx.font = 'bold 18px sans-serif';
@@ -1771,7 +1924,7 @@
       ctx.fillText(seatsText, 440, 236);
 
       const rows = [
-        ['Armada', `${fleet.name} (Isuzu Elf Long)`],
+        ['Armada', `${fleet.name} (${vehicleLabel})`],
         ['Rute', fleet.route],
         ['Tanggal & Jam', `${fleet.date} • ${fleet.time}`],
         ['Nama Penumpang', booking.participant_name],
@@ -1875,7 +2028,7 @@
 
     /**
      * =========================================================================
-     * 10. ADMIN PANEL: SCHEDULES, MANIFEST, EDIT/DELETE SEAT & QR ATTENDANCE
+     * 10. ADMIN PANEL: SCHEDULES, PICKUP POINTS, MANIFEST & QR ATTENDANCE
      * =========================================================================
      */
     function switchAdminTab(tabName) {
@@ -1893,7 +2046,10 @@
       });
 
       if (tabName !== 'attendance') stopQrCamera();
-      if (tabName === 'schedules') populateAdminScheduleInputs();
+      if (tabName === 'schedules') {
+        populateAdminScheduleInputs();
+        renderAdminPickupList();
+      }
       if (tabName === 'manifest') renderAdminManifest();
       if (tabName === 'attendance') renderAttendanceTab();
       lucide.createIcons();
@@ -1902,6 +2058,8 @@
     function populateAdminScheduleInputs() {
       const t1 = state.schedules.travel1;
       const t2 = state.schedules.travel2;
+      const hl = state.schedules.helper || DEFAULT_SCHEDULES.helper;
+
       document.getElementById('edit-t1-route').value = t1.route;
       document.getElementById('edit-t1-dropoff').value = t1.dropoff;
       document.getElementById('edit-t1-date').value = t1.date;
@@ -1911,6 +2069,77 @@
       document.getElementById('edit-t2-dropoff').value = t2.dropoff;
       document.getElementById('edit-t2-date').value = t2.date;
       document.getElementById('edit-t2-time').value = t2.time;
+
+      document.getElementById('edit-helper-route').value = hl.route;
+      document.getElementById('edit-helper-dropoff').value = hl.dropoff;
+      document.getElementById('edit-helper-date').value = hl.date;
+      document.getElementById('edit-helper-time').value = hl.time;
+    }
+
+    function renderAdminPickupList() {
+      const listEl = document.getElementById('admin-pickup-list');
+      const badgeEl = document.getElementById('pickup-count-badge');
+      if (badgeEl) badgeEl.textContent = `${state.pickupPoints.length} Titik`;
+      if (!listEl) return;
+
+      if (state.pickupPoints.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-slate-400">Belum ada pilihan titik penjemputan.</p>`;
+        return;
+      }
+
+      listEl.innerHTML = state.pickupPoints
+        .map(
+          (pt, index) => `
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-navy">
+            <span>${escapeHtml(pt)}</span>
+            <button type="button" onclick="handleRemovePickupPoint(${index})" title="Hapus Titik Jemput" class="text-slate-400 hover:text-rose-600 transition-colors">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `
+        )
+        .join('');
+      lucide.createIcons();
+    }
+
+    async function handleAddPickupPoint() {
+      const inputEl = document.getElementById('new-pickup-point-input');
+      const val = (inputEl?.value || '').trim();
+      if (!val) {
+        showToast('Masukkan nama titik penjemputan terlebih dahulu.', 'warning');
+        return;
+      }
+      if (state.pickupPoints.some((p) => p.toLowerCase() === val.toLowerCase())) {
+        showToast('Titik penjemputan tersebut sudah ada di daftar.', 'warning');
+        return;
+      }
+
+      state.pickupPoints.push(val);
+      inputEl.value = '';
+      saveToLocalStorage();
+      renderAdminPickupList();
+      renderPickupDropdownOptions();
+
+      if (supabaseClient) {
+        await supabaseClient.from('sr_schedules').upsert([{ id: 'pickup_points', pickup_points: state.pickupPoints }]);
+      }
+      showToast('Pilihan titik penjemputan ditambahkan.', 'success');
+    }
+
+    async function handleRemovePickupPoint(index) {
+      if (state.pickupPoints.length <= 1) {
+        showToast('Minimal harus tersedia 1 pilihan titik penjemputan.', 'warning');
+        return;
+      }
+      state.pickupPoints.splice(index, 1);
+      saveToLocalStorage();
+      renderAdminPickupList();
+      renderPickupDropdownOptions();
+
+      if (supabaseClient) {
+        await supabaseClient.from('sr_schedules').upsert([{ id: 'pickup_points', pickup_points: state.pickupPoints }]);
+      }
+      showToast('Titik penjemputan dihapus.', 'info');
     }
 
     async function handleSaveSchedules(e) {
@@ -1929,36 +2158,48 @@
         date: document.getElementById('edit-t2-date').value.trim(),
         time: document.getElementById('edit-t2-time').value.trim()
       };
+      state.schedules.helper = {
+        ...state.schedules.helper,
+        route: document.getElementById('edit-helper-route').value.trim(),
+        dropoff: document.getElementById('edit-helper-dropoff').value.trim(),
+        date: document.getElementById('edit-helper-date').value.trim(),
+        time: document.getElementById('edit-helper-time').value.trim()
+      };
 
       saveToLocalStorage();
+      updateHariHCountdown();
       if (supabaseClient) {
-        await supabaseClient.from('sr_schedules').upsert([state.schedules.travel1, state.schedules.travel2]);
+        await supabaseClient
+          .from('sr_schedules')
+          .upsert([state.schedules.travel1, state.schedules.travel2, state.schedules.helper]);
       }
-      showToast('Jadwal & rute berhasil diperbarui!', 'success');
+      showToast('Jadwal & rute semua armada berhasil diperbarui!', 'success');
     }
 
     function setAdminManifestFleet(fleetId) {
       state.adminManifestFleet = fleetId;
-      document.getElementById('manifest-btn-travel1').className =
-        fleetId === 'travel1'
-          ? 'px-4 py-2 rounded-xl text-xs font-bold bg-navy text-white transition-all'
-          : 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
-      document.getElementById('manifest-btn-travel2').className =
-        fleetId === 'travel2'
-          ? 'px-4 py-2 rounded-xl text-xs font-bold bg-navy text-white transition-all'
-          : 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+      ['travel1', 'travel2', 'helper'].forEach((id) => {
+        const btn = document.getElementById(`manifest-btn-${id}`);
+        if (!btn) return;
+        btn.className =
+          fleetId === id
+            ? 'px-4 py-2 rounded-xl text-xs font-bold bg-navy text-white transition-all'
+            : 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+      });
       renderAdminManifest();
     }
 
     function renderAdminManifest() {
       const fleetId = state.adminManifestFleet;
-      const fleet = state.schedules[fleetId];
+      const fleet = state.schedules[fleetId] || DEFAULT_SCHEDULES[fleetId];
+      const capacity = getFleetCapacity(fleetId);
+      const isHelper = fleetId === 'helper';
       const bookedMap = getBookedSeatMap(fleetId);
       const occupiedCount = Object.keys(bookedMap).length;
 
       document.getElementById('manifest-table-title').textContent = `Manifest Penumpang — ${fleet.name}`;
       document.getElementById('manifest-table-subtitle').textContent = `${fleet.route} • ${fleet.date}`;
-      document.getElementById('manifest-occupancy-pill').textContent = `${occupiedCount} / 17 Terisi`;
+      document.getElementById('manifest-occupancy-pill').textContent = `${occupiedCount} / ${capacity} Terisi`;
 
       const miniMap = document.getElementById('admin-mini-seatmap');
       const miniCell = (num) => {
@@ -1972,22 +2213,34 @@
         return `<div class="h-11 rounded-xl bg-white border border-slate-300 text-slate-400 text-[11px] font-semibold flex items-center justify-center">#${num}</div>`;
       };
 
-      let miniHtml = `
-        <div class="grid grid-cols-3 gap-1.5 pb-2 border-b border-dashed border-slate-300">
-          ${miniCell(1)}
-          ${miniCell(2)}
-          <div class="h-11 rounded-xl bg-slate-200 text-slate-600 text-[10px] font-bold flex items-center justify-center">Sopir</div>
-        </div>
-      `;
-      for (let r = 0; r < 5; r++) {
-        const s = 3 + r * 3;
-        miniHtml += `<div class="grid grid-cols-3 gap-1.5">${miniCell(s)}${miniCell(s + 1)}${miniCell(s + 2)}</div>`;
+      let miniHtml = '';
+      if (isHelper) {
+        miniHtml = `
+          <div class="grid grid-cols-2 gap-1.5 pb-2 border-b border-dashed border-slate-300">
+            ${miniCell(1)}
+            <div class="h-11 rounded-xl bg-slate-200 text-slate-600 text-[10px] font-bold flex items-center justify-center">Sopir</div>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">${miniCell(2)}${miniCell(3)}</div>
+          <div class="grid grid-cols-2 gap-1.5">${miniCell(4)}${miniCell(5)}</div>
+        `;
+      } else {
+        miniHtml = `
+          <div class="grid grid-cols-3 gap-1.5 pb-2 border-b border-dashed border-slate-300">
+            ${miniCell(1)}
+            ${miniCell(2)}
+            <div class="h-11 rounded-xl bg-slate-200 text-slate-600 text-[10px] font-bold flex items-center justify-center">Sopir</div>
+          </div>
+        `;
+        for (let r = 0; r < 5; r++) {
+          const s = 3 + r * 3;
+          miniHtml += `<div class="grid grid-cols-3 gap-1.5">${miniCell(s)}${miniCell(s + 1)}${miniCell(s + 2)}</div>`;
+        }
       }
       miniMap.innerHTML = miniHtml;
 
       const tbody = document.getElementById('manifest-table-body');
       let rowsHtml = '';
-      for (let seat = 1; seat <= 17; seat++) {
+      for (let seat = 1; seat <= capacity; seat++) {
         const b = bookedMap[seat];
         if (b) {
           rowsHtml += `
@@ -2119,10 +2372,11 @@
     function exportManifestCSV() {
       const fleetId = state.adminManifestFleet;
       const fleet = state.schedules[fleetId];
+      const capacity = getFleetCapacity(fleetId);
       const bookedMap = getBookedSeatMap(fleetId);
 
       const lines = [['Armada', 'Kursi', 'Kode Booking', 'Nama Peserta', 'WhatsApp', 'Titik Jemput', 'Titik Antar', 'Status Kehadiran'].join(',')];
-      for (let seat = 1; seat <= 17; seat++) {
+      for (let seat = 1; seat <= capacity; seat++) {
         const b = bookedMap[seat];
         if (b) {
           lines.push(
