@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SR Trans — Reservasi Kursi Isuzu Elf Long (17 Kursi)</title>
+  <!-- Favicon Chrome Tab & Window Icon -->
+  <link rel="icon" type="image/png" href="https://sanimgcdn.com/u/3ab881dc2a505d6d22199c3cab689e44.png" />
+  <link rel="shortcut icon" type="image/png" href="https://sanimgcdn.com/u/3ab881dc2a505d6d22199c3cab689e44.png" />
+  <link rel="apple-touch-icon" href="https://sanimgcdn.com/u/3ab881dc2a505d6d22199c3cab689e44.png" />
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
@@ -42,6 +46,11 @@
   <style>
     body {
       background-color: #F8FAFC;
+      background-image: linear-gradient(rgba(248, 250, 252, 0.78), rgba(248, 250, 252, 0.84)), url('https://sanimgcdn.com/u/96fa6d15df9c98eab99804cf90c1e7f8.png');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
       color: #0F172A;
       -webkit-tap-highlight-color: transparent;
       transition: background-color 0.25s ease, color 0.25s ease;
@@ -50,6 +59,11 @@
     /* Dark Mode Global Overrides */
     html.dark body {
       background-color: #090D16;
+      background-image: linear-gradient(rgba(9, 13, 22, 0.82), rgba(9, 13, 22, 0.88)), url('https://sanimgcdn.com/u/96fa6d15df9c98eab99804cf90c1e7f8.png');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
       color: #F1F5F9;
     }
 
@@ -269,8 +283,9 @@
     <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
       <!-- Brand Identity (Secret 5-Tap Admin Trigger) -->
       <button onclick="handleBrandTap()" class="flex items-center gap-2.5 text-left group focus:outline-none">
-        <div class="w-10 h-10 rounded-xl bg-royal text-white flex items-center justify-center shadow-sm group-active:scale-95 transition-transform">
-          <i data-lucide="bus" class="w-5 h-5"></i>
+        <div class="w-10 h-10 rounded-xl bg-royal text-white flex items-center justify-center shadow-sm group-active:scale-95 transition-transform overflow-hidden">
+          <img src="https://sanimgcdn.com/u/3ab881dc2a505d6d22199c3cab689e44.png" alt="Logo SR Trans" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');" />
+          <i data-lucide="bus" class="w-5 h-5 hidden"></i>
         </div>
         <div>
           <div class="flex items-center gap-2">
@@ -308,6 +323,11 @@
   <!-- MAIN APPLICATION CONTAINER                                            -->
   <!-- ===================================================================== -->
   <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-6 pb-20">
+
+    <!-- =================================================================== -->
+    <!-- CONSUMER BOOKING FLOW VIEW                                          -->
+    <!-- =================================================================== -->
+    <section id="consumer-view">
 
       <!-- STEP 1: PILIH ARMADA (TRAVEL 1 & TRAVEL 2) -->
       <div id="step-1" class="animate-step space-y-5">
@@ -506,8 +526,9 @@
           <!-- Ticket Header -->
           <div class="p-5 sm:p-6 pb-4 flex items-center justify-between gap-2 border-b border-slate-100">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl bg-navy text-white flex items-center justify-center">
-                <i data-lucide="bus" class="w-4 h-4"></i>
+              <div class="w-9 h-9 rounded-xl bg-navy text-white flex items-center justify-center overflow-hidden">
+                <img src="https://sanimgcdn.com/u/3ab881dc2a505d6d22199c3cab689e44.png" alt="SR Trans" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');" />
+                <i data-lucide="bus" class="w-4 h-4 hidden"></i>
               </div>
               <span class="font-display font-extrabold text-lg text-navy">SR Trans</span>
             </div>
@@ -721,7 +742,7 @@
           <!-- Interactive Mini Seat Map (5 cols) -->
           <div class="lg:col-span-5 rounded-2xl bg-white border border-slate-200 p-4 flex flex-col items-center">
             <p class="text-xs font-bold text-navy mb-1">Denah Interaktif Admin</p>
-            <p class="text-[11px] text-slate-400 mb-3 text-center">Klik kursi terisi untuk lihat detail / batalkan</p>
+            <p class="text-[11px] text-slate-400 mb-3 text-center">Klik kursi terisi untuk lihat detail / ubah / batalkan</p>
             <div id="admin-mini-seatmap" class="w-full max-w-[250px] rounded-2xl border border-slate-300 bg-slate-50 p-3 space-y-2">
               <!-- Populated dynamically -->
             </div>
@@ -880,7 +901,7 @@
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <p class="text-xs text-slate-500">Masukkan **Kode Booking** (contoh: `SRT-1042`) atau **Nomor WhatsApp** yang didaftarkan.</p>
+      <p class="text-xs text-slate-500">Masukkan <strong>Kode Booking</strong> (contoh: <code>SRT-1042</code>) atau <strong>Nomor WhatsApp</strong> yang didaftarkan.</p>
       <div class="flex gap-2">
         <input type="text" id="lookup-query-input" placeholder="Kode Booking atau No. WA" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm text-navy focus:border-royal focus:outline-none" />
         <button onclick="searchMyTicket()" class="px-4 py-2.5 rounded-xl bg-royal hover:bg-royalHover text-white text-xs font-bold active:scale-95 transition-all">
@@ -1617,7 +1638,6 @@
       btn.innerHTML = `<span>Memproses Reservasi...</span>`;
 
       try {
-        // Re-check latest availability before saving
         if (supabaseClient) {
           await fetchAllDataFromSupabase();
         }
@@ -1725,11 +1745,9 @@
       canvas.height = 980;
       const ctx = canvas.getContext('2d');
 
-      // Card background
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Top Navy Header
       ctx.fillStyle = '#0F172A';
       ctx.fillRect(0, 0, canvas.width, 130);
 
@@ -1740,7 +1758,6 @@
       ctx.font = '20px sans-serif';
       ctx.fillText('Isuzu Elf Long • 17 Kursi Tunggal', 48, 102);
 
-      // Booking Code & Seat
       ctx.fillStyle = '#64748B';
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText('KODE BOOKING', 48, 190);
@@ -1753,7 +1770,6 @@
       ctx.fillStyle = '#0F172A';
       ctx.fillText(seatsText, 440, 236);
 
-      // Details list
       const rows = [
         ['Armada', `${fleet.name} (Isuzu Elf Long)`],
         ['Rute', fleet.route],
@@ -1782,7 +1798,6 @@
         y += 54;
       });
 
-      // QR Code from DOM canvas/img
       const qrImg = document.querySelector('#ticket-qrcode img') || document.querySelector('#ticket-qrcode canvas');
       if (qrImg) {
         ctx.drawImage(qrImg, 250, 695, 220, 220);
@@ -1945,7 +1960,6 @@
       document.getElementById('manifest-table-subtitle').textContent = `${fleet.route} • ${fleet.date}`;
       document.getElementById('manifest-occupancy-pill').textContent = `${occupiedCount} / 17 Terisi`;
 
-      // Render Mini Seat Map
       const miniMap = document.getElementById('admin-mini-seatmap');
       const miniCell = (num) => {
         const b = bookedMap[num];
@@ -1971,7 +1985,6 @@
       }
       miniMap.innerHTML = miniHtml;
 
-      // Render 17-Row Table
       const tbody = document.getElementById('manifest-table-body');
       let rowsHtml = '';
       for (let seat = 1; seat <= 17; seat++) {
