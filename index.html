@@ -812,9 +812,9 @@
             <button onclick="setAdminManifestFleet('helper')" id="manifest-btn-helper" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Armada Helper</button>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <button onclick="exportManifestCSV()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
-              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Export CSV</span>
+            <button onclick="exportManifestXLS()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95 transition-all shadow-2xs">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+              <span>Export Excel (.xls)</span>
             </button>
             <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-navy hover:bg-slate-50 active:scale-95 transition-all">
               <i data-lucide="printer" class="w-3.5 h-3.5 text-royal"></i>
@@ -2687,41 +2687,156 @@
       showToast(`Seluruh kursi ${state.schedules[fleetId].name} telah direset.`, 'success');
     }
 
-    function exportManifestCSV() {
+    function exportManifestXLS() {
       const fleetId = state.adminManifestFleet;
-      const fleet = state.schedules[fleetId];
+      const fleet = state.schedules[fleetId] || DEFAULT_SCHEDULES[fleetId];
       const capacity = getFleetCapacity(fleetId);
       const bookedMap = getBookedSeatMap(fleetId);
+      const occupiedCount = Object.keys(bookedMap).length;
+      const availableCount = Math.max(0, capacity - occupiedCount);
 
-      const lines = [['Armada', 'Kursi', 'Kode Booking', 'Nama Peserta', 'WhatsApp', 'Titik Jemput', 'Titik Antar', 'Status Kehadiran'].join(',')];
+      let checkedInSeats = 0;
+      for (let s = 1; s <= capacity; s++) {
+        if (bookedMap[s] && bookedMap[s].checked_in) checkedInSeats++;
+      }
+
+      const exportedAt = new Date().toLocaleString('id-ID', {
+        dateStyle: 'full',
+        timeStyle: 'short'
+      });
+
+      let tableRowsHtml = '';
       for (let seat = 1; seat <= capacity; seat++) {
         const b = bookedMap[seat];
+        const rowBg = seat % 2 === 0 ? '#F8FAFC' : '#FFFFFF';
         if (b) {
-          lines.push(
-            [
-              `"${fleet.name}"`,
-              seat,
-              `"${b.booking_code}"`,
-              `"${b.participant_name.replace(/"/g, '""')}"`,
-              `"${b.whatsapp}"`,
-              `"${b.pickup_point.replace(/"/g, '""')}"`,
-              `"${fleet.dropoff.replace(/"/g, '""')}"`,
-              b.checked_in ? '"Hadir"' : '"Belum Hadir"'
-            ].join(',')
-          );
+          const waClean = String(b.whatsapp || '').trim();
+          const statusBg = b.checked_in ? '#DCFCE7' : '#DBEAFE';
+          const statusColor = b.checked_in ? '#166534' : '#1E40AF';
+          const statusLabel = b.checked_in ? 'HADIR (CHECK-IN)' : 'TERKONFIRMASI';
+
+          tableRowsHtml += `
+            <tr style="background-color: ${rowBg};">
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; font-weight: bold; color: #0F172A;">Kursi #${seat}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; font-weight: bold; color: #1D4ED8; mso-number-format:'\\@';">${escapeHtml(b.booking_code)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; font-weight: bold; color: #0F172A;">${escapeHtml(b.participant_name)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #334155; mso-number-format:'\\@';">${escapeHtml(waClean)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #0F172A;">${escapeHtml(b.pickup_point)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #334155;">${escapeHtml(fleet.dropoff)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; font-weight: bold; background-color: ${statusBg}; color: ${statusColor};">${statusLabel}</td>
+            </tr>
+          `;
         } else {
-          lines.push([`"${fleet.name}"`, seat, '""', '"Kosong"', '""', '""', `"${fleet.dropoff}"`, '"Tersedia"'].join(','));
+          tableRowsHtml += `
+            <tr style="background-color: ${rowBg};">
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; font-weight: bold; color: #64748B;">Kursi #${seat}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; color: #94A3B8;">-</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; font-style: italic; color: #94A3B8;">(Kursi Kosong)</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #94A3B8;">-</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #94A3B8;">-</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; color: #64748B;">${escapeHtml(fleet.dropoff)}</td>
+              <td style="border: 1px solid #CBD5E1; padding: 8px 10px; text-align: center; font-weight: bold; background-color: #F1F5F9; color: #64748B;">TERSEDIA</td>
+            </tr>
+          `;
         }
       }
 
-      const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const excelHtml = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:x="urn:schemas-microsoft-com:office:excel"
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta charset="UTF-8" />
+          <!--[if gte mso 9]>
+          <xml>
+            <x:ExcelWorkbook>
+              <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                  <x:Name>${escapeHtml(fleet.name)}</x:Name>
+                  <x:WorksheetOptions>
+                    <x:DisplayGridlines/>
+                    <x:Print>
+                      <x:ValidPrinterInfo/>
+                      <x:PaperSizeIndex>9</x:PaperSizeIndex>
+                      <x:FitWidth>1</x:FitWidth>
+                      <x:FitHeight>0</x:FitHeight>
+                    </x:Print>
+                  </x:WorksheetOptions>
+                </x:ExcelWorksheet>
+              </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+          </xml>
+          <![endif]-->
+          <style>
+            body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #0F172A; }
+            table { border-collapse: collapse; width: 100%; }
+          </style>
+        </head>
+        <body>
+          <table>
+            <tr>
+              <td colspan="7" style="background-color: #0F172A; color: #FFFFFF; font-size: 16pt; font-weight: bold; padding: 14px 12px; border: 1px solid #0F172A;">
+                SR TRANS — MANIFEST PENUMPANG &amp; DENAH KURSI RETREAT
+              </td>
+            </tr>
+            <tr>
+              <td colspan="7" style="background-color: #1E3A8A; color: #DBEAFE; font-size: 10pt; padding: 6px 12px; border: 1px solid #1E3A8A;">
+                Kontak Layanan SR Trans: +62 838-7287-0200 • Dicetak pada: ${escapeHtml(exportedAt)} WIB
+              </td>
+            </tr>
+            <tr><td colspan="7" style="height: 10px;"></td></tr>
+            <tr>
+              <td style="font-weight: bold; background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 10px;">Armada</td>
+              <td colspan="2" style="border: 1px solid #CBD5E1; padding: 6px 10px; font-weight: bold; color: #1D4ED8;">${escapeHtml(fleet.name)} (${escapeHtml(getFleetSubtitle(fleetId))})</td>
+              <td style="font-weight: bold; background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 10px;">Jadwal Berangkat</td>
+              <td colspan="3" style="border: 1px solid #CBD5E1; padding: 6px 10px; font-weight: bold;">${escapeHtml(fleet.date)} • ${escapeHtml(fleet.time)}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold; background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 10px;">Rute Perjalanan</td>
+              <td colspan="2" style="border: 1px solid #CBD5E1; padding: 6px 10px;">${escapeHtml(fleet.route)}</td>
+              <td style="font-weight: bold; background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 10px;">Titik Antar (Tujuan)</td>
+              <td colspan="3" style="border: 1px solid #CBD5E1; padding: 6px 10px; font-weight: bold; color: #1D4ED8;">${escapeHtml(fleet.dropoff)}</td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold; background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 10px;">Ringkasan Kursi</td>
+              <td colspan="6" style="border: 1px solid #CBD5E1; padding: 6px 10px;">
+                <strong>Total Kapasitas:</strong> ${capacity} Kursi &nbsp;|&nbsp;
+                <strong style="color: #1D4ED8;">Terisi:</strong> ${occupiedCount} Kursi &nbsp;|&nbsp;
+                <strong style="color: #15803D;">Hadir Check-in:</strong> ${checkedInSeats} Peserta &nbsp;|&nbsp;
+                <strong style="color: #64748B;">Kosong:</strong> ${availableCount} Kursi
+              </td>
+            </tr>
+            <tr><td colspan="7" style="height: 12px;"></td></tr>
+            <thead>
+              <tr style="background-color: #1D4ED8; color: #FFFFFF; font-weight: bold; text-align: center;">
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 95px;">No. Kursi</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 115px;">Kode Booking</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 210px;">Nama Lengkap Peserta</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 145px;">Nomor WhatsApp</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 220px;">Titik Penjemputan</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 200px;">Titik Antar (Tujuan)</th>
+                <th style="border: 1px solid #1E40AF; padding: 10px; width: 145px;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRowsHtml}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob(['\ufeff', excelHtml], {
+        type: 'application/vnd.ms-excel;charset=utf-8;'
+      });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Manifest-${fleet.name.replace(/\s+/g, '_')}.csv`;
+      const safeName = fleet.name.replace(/\s+/g, '_');
+      a.download = `Manifest_SR_Trans_${safeName}.xls`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('File CSV manifest berhasil diunduh.', 'success');
+      showToast(`File Excel Manifest (${fleet.name}) berhasil diunduh!`, 'success');
     }
 
     /**
